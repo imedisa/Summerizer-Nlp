@@ -7,8 +7,7 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        'iranyekan': ['IRANYekan', 'sans-serif'],
-        'sans': ['IRANYekan', 'sans-serif'],
+        'peyda': ['Peyda', 'sans-serif'],
       },
     },
   },
