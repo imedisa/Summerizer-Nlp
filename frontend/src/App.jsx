@@ -3,16 +3,26 @@ import { useState } from 'react'
 function App() {
   const [text, setText] = useState('')
   const [method, setMethod] = useState('extractive')
-  const [length, setLength] = useState(40)
+  const [summaryLevel, setSummaryLevel] = useState('medium') // تغییر از length به summaryLevel
   const [summary, setSummary] = useState(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
+
+  // تبدیل سطح به درصد
+  const levelToPercentage = {
+    'very-short': 20,
+    'short': 35,
+    'medium': 50,
+    'long': 70
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     setLoading(true)
     setError(null)
     setSummary(null)
+
+    const length = levelToPercentage[summaryLevel]
 
     try {
       const response = await fetch('http://127.0.0.1:8000/api/summarize', {
@@ -94,19 +104,68 @@ function App() {
               </div>
             </div>
 
-            {/* Length Slider */}
+            {/* Summary Level Selection - جدید */}
             <div className="mb-6">
-              <label className="block text-gray-700 font-semibold mb-2">
-                طول خلاصه: {length}%
+              <label className="block text-gray-700 font-semibold mb-3">
+                طول خلاصه:
               </label>
-              <input
-                type="range"
-                min="10"
-                max="90"
-                value={length}
-                onChange={(e) => setLength(Number(e.target.value))}
-                className="w-full"
-              />
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                <label className="relative cursor-pointer">
+                  <input
+                    type="radio"
+                    value="very-short"
+                    checked={summaryLevel === 'very-short'}
+                    onChange={(e) => setSummaryLevel(e.target.value)}
+                    className="peer sr-only"
+                  />
+                  <div className="p-4 border-2 border-gray-300 rounded-lg text-center transition-all peer-checked:border-indigo-600 peer-checked:bg-indigo-50 peer-checked:text-indigo-700 hover:border-indigo-400">
+                    <div className="font-semibold">خیلی کوتاه</div>
+                    <div className="text-xs text-gray-500 mt-1">20%</div>
+                  </div>
+                </label>
+
+                <label className="relative cursor-pointer">
+                  <input
+                    type="radio"
+                    value="short"
+                    checked={summaryLevel === 'short'}
+                    onChange={(e) => setSummaryLevel(e.target.value)}
+                    className="peer sr-only"
+                  />
+                  <div className="p-4 border-2 border-gray-300 rounded-lg text-center transition-all peer-checked:border-indigo-600 peer-checked:bg-indigo-50 peer-checked:text-indigo-700 hover:border-indigo-400">
+                    <div className="font-semibold">کوتاه</div>
+                    <div className="text-xs text-gray-500 mt-1">35%</div>
+                  </div>
+                </label>
+
+                <label className="relative cursor-pointer">
+                  <input
+                    type="radio"
+                    value="medium"
+                    checked={summaryLevel === 'medium'}
+                    onChange={(e) => setSummaryLevel(e.target.value)}
+                    className="peer sr-only"
+                  />
+                  <div className="p-4 border-2 border-gray-300 rounded-lg text-center transition-all peer-checked:border-indigo-600 peer-checked:bg-indigo-50 peer-checked:text-indigo-700 hover:border-indigo-400">
+                    <div className="font-semibold">متوسط</div>
+                    <div className="text-xs text-gray-500 mt-1">50%</div>
+                  </div>
+                </label>
+
+                <label className="relative cursor-pointer">
+                  <input
+                    type="radio"
+                    value="long"
+                    checked={summaryLevel === 'long'}
+                    onChange={(e) => setSummaryLevel(e.target.value)}
+                    className="peer sr-only"
+                  />
+                  <div className="p-4 border-2 border-gray-300 rounded-lg text-center transition-all peer-checked:border-indigo-600 peer-checked:bg-indigo-50 peer-checked:text-indigo-700 hover:border-indigo-400">
+                    <div className="font-semibold">بلند</div>
+                    <div className="text-xs text-gray-500 mt-1">70%</div>
+                  </div>
+                </label>
+              </div>
             </div>
 
             {/* Submit Button */}
