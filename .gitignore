@@ -1,0 +1,4 @@
+backend/hf-models/
+__pycache__
+.venv
+.env

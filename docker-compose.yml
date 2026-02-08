@@ -1,0 +1,30 @@
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    environment:
+      HF_LOCAL_ONLY: ${HF_LOCAL_ONLY:-1}
+      HF_MODEL_DIR: ${HF_MODEL_DIR:-/app/backend}
+      ABSTRACTIVE_MODEL: ${ABSTRACTIVE_MODEL:-mt5-persian-summary}
+      ALLOW_ORIGINS: ${ALLOW_ORIGINS:-http://localhost:8080}
+    ports:
+      - "8000:8000"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import requests; requests.get('http://localhost:8000/healthz', timeout=3).raise_for_status()"]
+      interval: 20s
+      timeout: 5s
+      retries: 5
+    # gpus: all
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        VITE_API_BASE_URL: ${VITE_API_BASE_URL:-http://localhost:8000}
+    ports:
+      - "8080:80"
+    depends_on:
+      backend:
+        condition: service_healthy
