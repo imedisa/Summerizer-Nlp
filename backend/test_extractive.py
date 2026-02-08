@@ -19,11 +19,9 @@ def test_with_sample_text():
     محققان همچنین بر نیاز به شفافیت در الگوریتم‌های یادگیری ماشین تأکید دارند.
     """
     
-    # تست با نسبت 30%
     result = textrank_summarize(text, summary_ratio=0.3)
     print_result(result)
     
-    # تست با تعداد دقیق جملات
     print("\n" + "-" * 80)
     print("تست با تعداد دقیق 3 جمله:")
     print("-" * 80)
@@ -43,22 +41,19 @@ def test_with_file():
         print(f"❌ فایل {file_path} یافت نشد!")
         return
     
-    # خواندن و جدا کردن خبرها
     with open(file_path, 'r', encoding='utf-8') as f:
         content = f.read()
     
-    # جدا کردن خبرها بر اساس === خبر ===
     news_items = content.split('===')
     
-    # فیلتر کردن و پاکسازی
     news_items = [item.strip() for item in news_items if item.strip() and 'خبر' in item]
     
-    for i, news in enumerate(news_items[:3], 1):  # فقط 3 خبر اول
+    for i, news in enumerate(news_items[:3], 1):  
         lines = news.split('\n')
         title = lines[0].strip() if lines else f"خبر {i}"
         text = '\n'.join(lines[1:]).strip()
         
-        if len(text) > 50:  # اگر متن معنادار داره
+        if len(text) > 50: 
             print(f"\n{'─' * 80}")
             print(f"📰 {title}")
             print('─' * 80)

@@ -1,7 +1,6 @@
 from preprocessing import normalize_text, sentence_tokenize_persian, word_tokenize_persian
 
 
-# متن‌های نمونه فارسی برای تست
 test_texts = [
     """
     هوش مصنوعی یکی از مهم‌ترین فناوری‌های قرن بیست‌ویکم است. این فناوری توانسته است در حوزه‌های مختلفی مانند پزشکی، صنعت و آموزش تحول ایجاد کند.
@@ -63,7 +62,6 @@ def test_word_tokenize():
     print("تست جداسازی کلمات")
     print("=" * 80)
     
-    # فقط یک متن رو تست می‌کنیم (خروجی زیاد میشه)
     sample = test_texts[0]
     print(f"متن نمونه: {sample.strip()}")
     words = word_tokenize_persian(sample)
